@@ -1,0 +1,24 @@
+---
+- name: install PHP
+  apt:
+    name: php
+    state: present
+    update_cache: yes
+
+- name: install Libapache2
+  apt:
+    name: libapache2-mod-php
+    state: present
+    update_cache: yes
+
+- name: install php-mcrypt
+  apt:
+    name: php-mcrypt
+    state: present
+    update_cache: yes
+
+- name: install PHP-Mysql
+  apt:
+    name: php-mysql
+    state: present
+    update_cache: yes

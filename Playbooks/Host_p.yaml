@@ -1,0 +1,22 @@
+---
+- hosts: web
+  become: yes
+  
+  vars:
+    php_enable_php_fpm: true
+
+  roles: 
+    - Webserver
+
+- hosts: lb
+  become: yes
+
+  roles: 
+    - lb
+  
+- hosts: db
+  become: yes
+
+  roles: 
+    - db
+  

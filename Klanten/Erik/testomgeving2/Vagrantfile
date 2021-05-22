@@ -1,0 +1,25 @@
+Vagrant.configure("2") do |config|
+  config.ssh.insert_key = false
+  config.ssh.private_key_path = ["~/.ssh/id_rsa","~/.vagrant.d/insecure_private_key"]
+  #config.vbguest.auto_update = "vbguestupdate"
+
+
+#WEBSERVER 1
+(1..1).each do |i|
+  config.vm.define "Erik-testomgeving-02-webserver#{i}" do |web1_config|
+ 
+      web1_config.vm.box = "ubuntu/xenial64"
+      web1_config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
+
+      web1_config.vm.hostname = "Erik-testomgeving-02-Webserver#{i}"
+      web1_config.vm.network "private_network", ip: "192.168.23.1#{i}"
+
+      web1_config.vm.provider "virtualbox" do |vb|
+          vb.memory = "512"
+          vb.name = "Erik-testomgeving-02-Webserver#{i}"
+      end
+  end
+end
+
+
+end

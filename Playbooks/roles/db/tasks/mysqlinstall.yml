@@ -1,0 +1,12 @@
+---
+- name: Install MYSQL
+  apt:
+    name: mysql-server
+    state: present
+    update_cache: yes
+
+- name: Install MYSQLPython
+  apt:
+    name: python3-mysqldb
+    state: present
+    update_cache: yes

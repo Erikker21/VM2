@@ -1,0 +1,68 @@
+- name: Mysql start
+  service:
+    name: mysql
+    state: started
+    enabled: True
+
+- name: Copy my.cnf Root
+  template:
+    src: my.cnf.j2
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Copy my.cnf global MySQL configuration.
+  template:
+    src: mysqlconf
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Root user Create
+  mysql_user:
+    name: root
+    host: localhost
+    password: root
+
+- name: Copy SQL template
+  template:
+    src: dump.sql
+    dest: /tmp/dump.sql
+
+- name: Insert SQL
+  mysql_db: name=webdb state=import target=/tmp/dump.sql login_user=root login_password=root
+
+- name: Create MYSQL webdb DB user 1
+  mysql_user:
+    login_user: "root"
+    login_password: "root"
+    name: "administrator1"
+    host: "192.168.KLANTID.11"
+    password: "wachtwoord1"
+    priv: "*.*:ALL,GRANT"
+    state: "present"
+  no_log: false
+
+- name: Create MYSQL webdb DB user 2
+  mysql_user:
+    login_user: "root"
+    login_password: "root"
+    name: "administrator1"
+    host: "192.168.KLANTID.12"
+    password: "wachtwoord1"
+    priv: "*.*:ALL,GRANT"
+    state: "present"
+  no_log: false
+
+- name: Restart MySQL
+  service:
+    name: mysql
+    state: restarted
+
+#- name: restart mysql
+#  service: name=mysql
+#           enabled=yes
+#           state=restarted
+
